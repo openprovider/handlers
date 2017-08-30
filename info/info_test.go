@@ -1,12 +1,12 @@
-package handlers
+package info_test
 
 import (
-	"testing"
-
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"testing"
 
+	"github.com/openprovider/handlers/info"
 	"github.com/takama/router"
 )
 
@@ -22,7 +22,8 @@ func TestInfo(t *testing.T) {
 	repo := "test"
 	commit := "commit"
 
-	Info(c, version, repo, commit)
+	h := info.Handler(version, repo, commit)
+	h(c)
 
 	resp := w.Result()
 
