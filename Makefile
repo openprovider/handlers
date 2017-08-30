@@ -10,5 +10,6 @@ prepare_deps:
 	go get -u -v -d github.com/takama/router
 
 prepare_linters:
+	go get -u -v -d github.com/alecthomas/gometalinter
 	go install -v github.com/alecthomas/gometalinter
 	gometalinter --install --update
