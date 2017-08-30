@@ -1,4 +1,4 @@
-package handlers
+package info
 
 import (
 	"fmt"
@@ -26,25 +26,27 @@ type RuntimeInfo struct {
 	Goroutines int    `json:"goroutines"`
 }
 
-// Info provides JSON API response giving service information
-func Info(c *router.Control, version, repo, commit string) {
-	host, _ := os.Hostname()
-	m := new(runtime.MemStats)
-	runtime.ReadMemStats(m)
+// Handler provides JSON API response giving service information
+func Handler(version, repo, commit string) router.Handle {
+	return func(c *router.Control) {
+		host, _ := os.Hostname()
+		m := new(runtime.MemStats)
+		runtime.ReadMemStats(m)
 
-	rt := &RuntimeInfo{
-		CPU:        runtime.NumCPU(),
-		Memory:     fmt.Sprintf("%.2fMB", float64(m.Alloc)/(1<<(10*2))),
-		Goroutines: runtime.NumGoroutine(),
+		rt := &RuntimeInfo{
+			CPU:        runtime.NumCPU(),
+			Memory:     fmt.Sprintf("%.2fMB", float64(m.Alloc)/(1<<(10*2))),
+			Goroutines: runtime.NumGoroutine(),
+		}
+
+		info := ServiceInfo{
+			Host:    host,
+			Runtime: rt,
+			Version: version,
+			Repo:    repo,
+			Commit:  commit,
+		}
+
+		c.Code(http.StatusOK).Body(info)
 	}
-
-	info := ServiceInfo{
-		Host:    host,
-		Runtime: rt,
-		Version: version,
-		Repo:    repo,
-		Commit:  commit,
-	}
-
-	c.Code(http.StatusOK).Body(info)
 }
