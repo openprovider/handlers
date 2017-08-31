@@ -6,9 +6,9 @@ This library represents a set of useful middleware and handlers for [takama's ro
 
 ### Info
 
-Info handler shows useful information about the service.
+Info handler shows useful information about the service:
 
-How to use:
+** Documentation is TBD **
 
 
 ## Contributing
@@ -20,3 +20,7 @@ If you have any questions, feel free to [create an issue](https://github.com/ope
 Contributors (unsorted):
 
 - [Elena Grahovac](https://github.com/rumyantseva)
+
+## Current version
+
+0.1.0
