@@ -6,7 +6,7 @@ This library represents a set of useful middleware and handlers for [takama's ro
 
 ### Info
 
-Info handler shows useful information about the service:
+Info handler shows useful information about the service.
 
         r := router.New()
 
@@ -41,4 +41,4 @@ Contributors (unsorted):
 
 ## Current version
 
-0.1.0
+0.1.1
