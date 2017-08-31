@@ -160,7 +160,7 @@ func TestFromQueryString(t *testing.T) {
 	}
 }
 
-func TestGetBearerToken(t *testing.T) {
+func TestGetBearerTokenFromHeader(t *testing.T) {
 	token := "mF_9.B5f-4.1JqM"
 
 	// - Test Set #1. From Header. -
@@ -214,20 +214,24 @@ func TestGetBearerToken(t *testing.T) {
 	if res == token {
 		t.Error("Token must be wrong, got right")
 	}
+}
+
+func TestGetBearerTokenFromBody(t *testing.T) {
+	token := "mF_9.B5f-4.1JqM"
 
 	// - Test Set #2. From Body. -
 	// positive case
-	c = new(router.Control)
+	c := new(router.Control)
 	data := url.Values{}
 	data.Set("access_token", token)
-	r, err = http.NewRequest("POST", "test", bytes.NewBufferString(data.Encode()))
+	r, err := http.NewRequest("POST", "test", bytes.NewBufferString(data.Encode()))
 	if err != nil {
 		t.Error(err)
 	}
 	r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	c.Request = r
 
-	res, err = getBearerToken(c)
+	res, err := getBearerToken(c)
 	if err != nil {
 		t.Error(err)
 	}
@@ -271,11 +275,15 @@ func TestGetBearerToken(t *testing.T) {
 	if len(res) != 0 {
 		t.Errorf("Expected empty token, got %s", res)
 	}
+}
+
+func TestGetBearerTokenFromQueryString(t *testing.T) {
+	token := "mF_9.B5f-4.1JqM"
 
 	// - Test Set #3. From QueryString. -
 	// positive case
-	c = new(router.Control)
-	r, err = http.NewRequest("GET", "test", nil)
+	c := new(router.Control)
+	r, err := http.NewRequest("GET", "test", nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -287,7 +295,7 @@ func TestGetBearerToken(t *testing.T) {
 	}
 	c.Set(param)
 
-	res, err = getBearerToken(c)
+	res, err := getBearerToken(c)
 	if err != nil {
 		t.Error(err)
 	}
